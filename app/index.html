@@ -74,19 +74,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Drawer Content -->
         <paper-menu attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="{{baseUrl}}">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
+          <a data-route="sightings" href="{{baseUrl}}">
+            <iron-icon icon="image:camera"></iron-icon>
+            <span>Sightings</span>
           </a>
 
-          <a data-route="users" href="{{baseUrl}}users">
+          <a data-route="hotspots" href="{{baseUrl}}hotspots">
+            <iron-icon icon="social:whatshot"></iron-icon>
+            <span>Hotspots</span>
+          </a>
+
+          <a data-route="about" href="{{baseUrl}}about">
             <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a>
-
-          <a data-route="contact" href="{{baseUrl}}contact">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
+            <span>About</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -151,7 +151,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 
-            <section data-route="users">
+            
+            <section data-route="sightings">
               <paper-material elevation="1">
                 <h2 class="page-title">Users</h2>
                 <p>This is the users section</p>
@@ -162,14 +163,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 
-            <section data-route="user-info">
+            <section data-route="hotspots">
               <paper-material elevation="1">
                 <h2 class="page-title">User: {{params.name}}</h2>
                 <div>This is {{params.name}}'s section</div>
               </paper-material>
             </section>
 
-            <section data-route="contact">
+            
+            <section data-route="about">
               <paper-material elevation="1">
                 <h2 class="page-title">Contact</h2>
                 <p>This is the contact section</p>
