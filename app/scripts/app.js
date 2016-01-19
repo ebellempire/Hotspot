@@ -33,19 +33,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
-    navigator.geolocation.getCurrentPosition(function(position) {
+
+    function getLocation() {
       
-      app.initialPosition = [position.coords.latitude,position.coords.longitude];
-      console.log(app.initialPosition);
+      function success(position) {
+        
+        app.initialPosition = [position.coords.latitude,position.coords.longitude];
+        console.log(app.initialPosition);
+        
+        app.apiRecent = 'http://ebird.org/ws1.1/data/obs/geo/recent?fmt=json&back=2' + 
+          '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
+        console.log(app.apiRecent);
+        
+        app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=csv' + 
+          '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
+        console.log(app.apiHotspots);
+      }
       
-      app.apiRecent = 'http://ebird.org/ws1.1/data/obs/geo/recent?fmt=json&back=2' + 
-        '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
-      console.log(app.apiRecent);
+      function error() {
+        console.log('Unable to determine location!');
+      }
       
-      app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=csv' + 
-        '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
-      console.log(app.apiHotspots);
-    });
+      navigator.geolocation.getCurrentPosition(success,error);
+      
+    }
+    
+    getLocation();
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
