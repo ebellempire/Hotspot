@@ -34,7 +34,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
 
+    var working = document.querySelector('#refresh-button');
+
     function getLocation() {
+        
+      working.setAttribute('class', 'spin');  
       
       function success(position) {
         
@@ -48,12 +52,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=csv' + 
           '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
         console.log(app.apiHotspots);
+        
+        working.removeAttribute('class'); 
+        
       }
       
       function error() {
         console.log('Unable to determine location!');
       }
-      
+            
       navigator.geolocation.getCurrentPosition(success,error);
       
     }
