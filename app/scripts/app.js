@@ -6,7 +6,6 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
 (function(document) {
   'use strict';
 
@@ -34,13 +33,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+    navigator.geolocation.getCurrentPosition(function(position) {
+      app.initialPosition = [position.coords.latitude,position.coords.longitude];
+      console.log(app.initialPosition);
+    });
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
   });
-  
+
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
     app.$.headerPanelMain.scrollToTop(true);
