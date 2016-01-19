@@ -59,6 +59,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
     
     getLocation();
+
+    app.refreshLocation = function() {
+      console.log('Refreshing user location...');
+      getLocation();
+    };
+    
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
