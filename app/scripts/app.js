@@ -36,6 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     var working = Polymer.dom(document).querySelector('#refresh-button');
     var locationToast = Polymer.dom(document).querySelector('#toast');
+    var sightingsAjax = Polymer.dom(document).querySelector('iron-ajax#sightings');
+    var hotspotsAjax = Polymer.dom(document).querySelector('iron-ajax#hotspots');
 
     function getLocation() {
         
@@ -50,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
         console.log(app.apiRecent);
         
-        app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=csv' + 
+        app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=json' + 
           '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
         console.log(app.apiHotspots);
         
@@ -58,6 +60,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         locationToast.show();
         
         working.removeAttribute('class'); 
+
+        sightingsAjax.url = app.apiRecent;
+        hotspotsAjax.url = app.apiHotspots;
         
       }
       

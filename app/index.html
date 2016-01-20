@@ -104,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">eBird Heatseeker</div>
+            <div class="app-name">{{title}}</div>
           </div>
 
         </paper-toolbar>
@@ -114,17 +114,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             
             <section data-route="sightings">
-              <paper-material elevation="1">
-                <h2 class="page-title">Sightings</h2>
-                <p>This is the sightings section</p>             
-              </paper-material>
+            	<template is="dom-bind">
+                    <iron-ajax
+                      id="sightings"
+                	  auto
+                	  url=""
+                	  handle-as="json"
+                	  last-response="{{response}}"></iron-ajax>
+                    <iron-list>
+                    <template is="dom-repeat" items="{{response}}">
+                      <div class="row">
+                          <h4 class="title">[[item.comName]]</h4>
+                          <div class="latin">[[item.sciName]]</div>
+                          <div class="loc">Last spotted at <span>[[item.locName]]</span></div>
+                          <div class="time">[[item.obsDt]]</div>
+                      </div>
+                    </template>
+                    </iron-list>
+            	</template>      
             </section>
 
             <section data-route="hotspots">
-              <paper-material elevation="1">
-                <h2 class="page-title">Hotspots</h2>
-                <p>This is the hotspots section</p>             
-              </paper-material>
+            	<template is="dom-bind">
+                    <iron-ajax
+                      id="hotspots"
+                	  auto
+                	  url=""
+                	  handle-as="json"
+                	  last-response="{{response}}"></iron-ajax>
+                    <iron-list>
+                    <template is="dom-repeat" items="{{response}}">
+                      <div class="row">
+                          <h4 class="title">[[item.locName]]</h4>
+                          <div class="location-data"><span>[[item.locID]]</span> | <span>[[item.subnational2Code]]</span> | <span>[[item.countryCode]]</span></div>
+                      </div>
+                    </template>
+                    </iron-list>
+            	</template>  
             </section>
 
             
