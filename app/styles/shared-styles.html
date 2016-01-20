@@ -5,6 +5,9 @@
 <dom-module id="shared-styles">
   <template>
     <style>
+      body{
+        background-color: #f2f2f2;
+      }
       .page-title {
         @apply(--paper-font-display2);
       }
@@ -17,6 +20,41 @@
         .page-title {
           font-size: 24px!important;
         }
+      }
+      iron-list .row{
+      	height: auto;
+      	max-width: 95%;
+      	margin: 10px 2.5%;
+      	padding: 10px;
+      	position: relative !important;
+      	top:auto !important;
+      	border:1px solid #ccc;
+      	background: #fff;
+      }
+      iron-list .row h4.title{
+        margin: 0;
+        padding: 0;
+      }
+      iron-list .row .latin{
+          color:#ccc;
+          font-size:.85em;
+          padding: .15em 0 .5em;
+          font-style: italic;
+      }
+      iron-list .row .location-data{
+          color:#ccc;
+          font-size:.85em;
+          padding: .15em 0 0;
+          font-style: italic;
+      }
+      iron-list .row .loc{
+          font-size:.85em;
+          padding-bottom: .5em;
+      }
+      
+      iron-list .row .time{
+          color:#ccc;
+          font-size:.7em;
       }
       .spin {
           -webkit-animation-name: spin;
