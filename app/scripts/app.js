@@ -34,7 +34,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
 
-    var working = document.querySelector('#refresh-button');
+    var working = Polymer.dom(document).querySelector('#refresh-button');
+    var locationToast = Polymer.dom(document).querySelector('#toast');
 
     function getLocation() {
         
@@ -53,15 +54,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
         console.log(app.apiHotspots);
         
+        locationToast.text = 'Location acquired! Get your bird on!';
+        locationToast.show();
+        
         working.removeAttribute('class'); 
         
       }
       
       function error() {
-        console.log('Unable to determine location!');
+        
+        working.removeAttribute('class');
+        working.setAttribute('icon', 'error'); 
+        
+        locationToast.text = 'Unable to determine location.' + 
+            'Please check your settings and try again.';
+        locationToast.duration = 0; 
+        locationToast.show(); 
+		
       }
             
-      navigator.geolocation.getCurrentPosition(success,error);
+      navigator.geolocation.getCurrentPosition(success,error,{enableHighAccuracy: true});
       
     }
     
