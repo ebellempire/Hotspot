@@ -39,18 +39,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     page('/', function() {
       app.route = 'sightings';
+      app.title = 'Nearby Sightings';
     });
 
     page(app.baseUrl, function() {
       app.route = 'sightings';
+      app.title = 'Nearby Sightings';
     });
 
     page('/hotspots', function() {
       app.route = 'hotspots';
+      app.title = 'Nearby Hotspots';
     });
 
     page('/about', function() {
       app.route = 'about';
+      app.title = 'About';
     });
 
     // 404
