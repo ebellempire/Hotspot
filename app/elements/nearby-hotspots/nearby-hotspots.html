@@ -10,44 +10,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="nearby-hotspots">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
+    <iron-ajax
+    	  id="hotspots"
+    	  auto
+    	  verbose
+    	  url=""
+    	  handle-as="json"
+    	  last-response="{{response}}"></iron-ajax>
+    <iron-list>
+    <template is="dom-repeat" items="{{response}}">
+      <div class="row">
+          <h4 class="title">[[item.locName]]</h4>
+          <div class="location-data">
+              <span>[[item.locID]]</span> | <span>[[item.subnational2Code]]</span> | <span>[[item.countryCode]]</span>
+          </div>
+      </div>
+    </template>
+    </iron-list>
+  </template> 
 
-      span {
-        @apply(--paper-font-body1);
-      }
-    </style>
+<script>
+  (function() {
+    'use strict';
 
-    <ul>
-      <template is="dom-repeat" items="{{items}}">
-        <li><span>{{item}}</span></li>
-      </template>
-    </ul>
-  </template>
+    Polymer({
+      is: 'nearby-hotspots',
 
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'nearby-hotspots',
-
-        properties: {
-          items: {
-            type: Array,
-            notify: true,
-          }
-        },
-
-        ready: function() {
-
+      properties: {
+        url: {
+          type: String,
         }
-      });
-    })();
-  </script>
+      },
+
+      ready: function() {
+        console.log(this);
+        this.$.hotspots.url = this.url;
+      },
+      
+    });
+  })();
+</script>
 </dom-module>

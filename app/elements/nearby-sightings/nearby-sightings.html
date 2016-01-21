@@ -10,44 +10,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="nearby-sightings">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
+    <iron-ajax
+          id="sightings"
+    	  auto
+    	  verbose
+    	  url=""
+    	  handle-as="json"
+    	  last-response="{{response}}"></iron-ajax>
+    <iron-list>
+    <template is="dom-repeat" items="{{response}}">
+      <div class="row">
+          <h4 class="title">[[item.comName]]</h4>
+          <div class="latin">[[item.sciName]]</div>
+          <div class="loc">Last spotted at <span>[[item.locName]]</span></div>
+          <div class="time">[[item.obsDt]]</div>
+      </div>
+    </template>
+    </iron-list>
+  </template> 
 
-      span {
-        @apply(--paper-font-body1);
-      }
-    </style>
-
-    <ul>
-      <template is="dom-repeat" items="{{items}}">
-        <li><span>{{item}}</span></li>
-      </template>
-    </ul>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'nearby-sightings',
-
-        properties: {
-          items: {
-            type: Array,
-            notify: true,
-          }
-        },
-
-        ready: function() {
-
+<script>
+  (function() {
+    'use strict';
+  
+    Polymer({
+      is: 'nearby-sightings',
+  
+      properties: {
+        url: {
+          type: String,
         }
-      });
-    })();
-  </script>
+      },
+  
+      ready: function() {
+        console.log(this);
+        this.$.sightings.url = this.url;
+      },
+      
+    });
+  })();
+</script>
 </dom-module>
