@@ -113,11 +113,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             
-            <section data-route="sightings">
+            <section id="sightings" data-route="sightings">
             	<template is="dom-bind">
                     <iron-ajax
-                      id="sightings"
                 	  auto
+                	  verbose
                 	  url=""
                 	  handle-as="json"
                 	  last-response="{{response}}"></iron-ajax>
@@ -134,11 +134,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             	</template>      
             </section>
 
-            <section data-route="hotspots">
+            <section id="hotspots" data-route="hotspots">
             	<template is="dom-bind">
                     <iron-ajax
-                      id="hotspots"
                 	  auto
+                	  verbose
                 	  url=""
                 	  handle-as="json"
                 	  last-response="{{response}}"></iron-ajax>

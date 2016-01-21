@@ -36,8 +36,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     var working = Polymer.dom(document).querySelector('#refresh-button');
     var locationToast = Polymer.dom(document).querySelector('#toast');
-    var sightingsAjax = Polymer.dom(document).querySelector('iron-ajax#sightings');
-    var hotspotsAjax = Polymer.dom(document).querySelector('iron-ajax#hotspots');
 
     function getLocation() {
         
@@ -61,8 +59,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         working.removeAttribute('class'); 
 
-        sightingsAjax.url = app.apiRecent;
-        hotspotsAjax.url = app.apiHotspots;
+        Polymer.dom(document).querySelector('#sightings iron-ajax').url = app.apiRecent;
+        Polymer.dom(document).querySelector('#hotspots iron-ajax').url = app.apiHotspots;
         
       }
       
