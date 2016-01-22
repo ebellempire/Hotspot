@@ -11,17 +11,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <dom-module id="nearby-hotspots">
+  <style include="shared-styles">
+    :host { display: block; }
+  </style>
   <template>
     <iron-ajax
     	  id="hotspots"
     	  auto
     	  verbose
-    	  url=""
+    	  url="{{url}}"
     	  handle-as="json"
-    	  last-response="{{response}}"></iron-ajax>
+    	  last-response="{{response}}"
+        on-response="hotspotsResponseHandler"
+        on-error="hotspotsErrorHandler"></iron-ajax>
     <iron-list>
-    <template is="dom-repeat" items="{{response}}">
-      <div class="row">
+    <template is="dom-repeat" items="{{items}}">
+      <div class="row" on-tap="hotspotsClickHandler">
           <h4 class="title">[[item.locName]]</h4>
           <div class="location-data">
               <span>[[item.locID]]</span> | <span>[[item.subnational2Code]]</span> | <span>[[item.countryCode]]</span>
@@ -34,22 +39,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script>
   (function() {
     'use strict';
-
+  
     Polymer({
       is: 'nearby-hotspots',
-
+  
       properties: {
         url: {
           type: String,
+          notify: true
+        },
+        latitude: {
+          type: String,
+        },
+        longitude: {
+          type: String,
+        },  
+        items: {
+          type: Array,
+        },      
+      },
+  
+      attached: function() {
+        // send request after user location is determined
+        this.addEventListener('hotspotsLocationAcquired', function(e) {
+          this.url = e.detail.url;
+          this.$.hotspots.generateRequest();          
+        }); 
+
+      },
+      
+      hotspotsResponseHandler: function(request) {
+        if (null !== request.detail.response) {
+          this.items = request.detail.response;
         }
       },
 
-      ready: function() {
-        console.log(this);
-        this.$.hotspots.url = this.url;
+      hotspotsErrorHandler: function(e) {
+        console.log(e);
+      },
+      
+      hotspotsClickHandler: function(e) {
+        console.log(e);
       },
       
     });
-  })();
+     
+  })(); 
+   
 </script>
 </dom-module>

@@ -114,43 +114,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             
             <section id="sightings" data-route="sightings">
-            	<template is="dom-bind">
-                    <iron-ajax
-                	  auto
-                	  verbose
-                	  url=""
-                	  handle-as="json"
-                	  last-response="{{response}}"></iron-ajax>
-                    <iron-list>
-                    <template is="dom-repeat" items="{{response}}">
-                      <div class="row">
-                          <h4 class="title">[[item.comName]]</h4>
-                          <div class="latin">[[item.sciName]]</div>
-                          <div class="loc">Last spotted at <span>[[item.locName]]</span></div>
-                          <div class="time">[[item.obsDt]]</div>
-                      </div>
-                    </template>
-                    </iron-list>
-            	</template>      
+                
+                <nearby-sightings 
+                    url
+                    latitude="{{lat}}" 
+                    longitude="{{lon}}"></nearby-sightings>
+                 
             </section>
 
             <section id="hotspots" data-route="hotspots">
-            	<template is="dom-bind">
-                    <iron-ajax
-                	  auto
-                	  verbose
-                	  url=""
-                	  handle-as="json"
-                	  last-response="{{response}}"></iron-ajax>
-                    <iron-list>
-                    <template is="dom-repeat" items="{{response}}">
-                      <div class="row">
-                          <h4 class="title">[[item.locName]]</h4>
-                          <div class="location-data"><span>[[item.locID]]</span> | <span>[[item.subnational2Code]]</span> | <span>[[item.countryCode]]</span></div>
-                      </div>
-                    </template>
-                    </iron-list>
-            	</template>  
+                
+                <nearby-hotspots 
+                    url
+                    latitude="{{lat}}" 
+                    longitude="{{lon}}"></nearby-hotspots>
+
             </section>
 
             

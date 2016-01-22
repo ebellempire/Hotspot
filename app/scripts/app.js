@@ -13,6 +13,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // and give it some initial binding values
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
+  app.apiRecent = 'http://ebird.org/ws1.1/data/obs/geo/recent?fmt=json&back=2';
+  app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=json';
 
   // Sets app default base URL
   app.baseUrl = '/';
@@ -43,25 +45,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       function success(position) {
         
-        app.initialPosition = [position.coords.latitude,position.coords.longitude];
-        console.log(app.initialPosition);
+        app.lat = position.coords.latitude;
+        app.lon = position.coords.longitude;
+        console.log(app.lat,app.lon);
         
-        app.apiRecent = 'http://ebird.org/ws1.1/data/obs/geo/recent?fmt=json&back=2' + 
-          '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
-        console.log(app.apiRecent);
+        app.locationRecent = app.apiRecent + 
+          '&lat=' + app.lat + '&lng=' + app.lon;
         
-        app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=json' + 
-          '&lat=' + app.initialPosition[0] + '&lng=' + app.initialPosition[1];
-        console.log(app.apiHotspots);
+        app.locationHotspots = app.apiHotspots + 
+          '&lat=' + app.lat + '&lng=' + app.lon;
         
         locationToast.text = 'Location acquired! Get your bird on!';
         locationToast.show();
         
         working.removeAttribute('class'); 
-
-        Polymer.dom(document).querySelector('#sightings iron-ajax').url = app.apiRecent;
-        Polymer.dom(document).querySelector('#hotspots iron-ajax').url = app.apiHotspots;
         
+        Polymer.dom(document).querySelector('nearby-sightings').fire(
+          'sightingsLocationAcquired', {url: app.locationRecent}
+          );
+        Polymer.dom(document).querySelector('nearby-hotspots').fire(
+          'hotspotsLocationAcquired', {url: app.locationHotspots}
+          );
+
       }
       
       function error() {

@@ -11,21 +11,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <dom-module id="nearby-sightings">
+  <style include="shared-styles">
+    :host { display: block; }
+  </style>
   <template>
     <iron-ajax
-          id="sightings"
+        id="sightings"
     	  auto
     	  verbose
-    	  url=""
+    	  url="{{url}}"
     	  handle-as="json"
-    	  last-response="{{response}}"></iron-ajax>
+        on-response="sightingsResponseHandler"
+        on-error="sightingsErrorHandler"></iron-ajax>
     <iron-list>
-    <template is="dom-repeat" items="{{response}}">
-      <div class="row">
-          <h4 class="title">[[item.comName]]</h4>
-          <div class="latin">[[item.sciName]]</div>
-          <div class="loc">Last spotted at <span>[[item.locName]]</span></div>
-          <div class="time">[[item.obsDt]]</div>
+    <template is="dom-repeat" items="{{items}}">
+      <div class="row" on-tap="sightingsClickHandler">
+          <h4 class="title">{{item.comName}}</h4>
+          <div class="latin">{{item.sciName}}</div>
+          <div class="loc">Last spotted at <span>{{item.locName}}</span></div>
+          <div class="time">{{item.obsDt}}</div>
       </div>
     </template>
     </iron-list>
@@ -41,15 +45,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         url: {
           type: String,
-        }
+          notify: true
+        },
+        latitude: {
+          type: String,
+        },
+        longitude: {
+          type: String,
+        },  
+        items: {
+          type: Array,
+        },      
       },
   
-      ready: function() {
-        console.log(this);
-        this.$.sightings.url = this.url;
+      attached: function() {
+        // send request after user location is determined
+        this.addEventListener('sightingsLocationAcquired', function(e) {
+          this.url = e.detail.url;
+          this.$.sightings.generateRequest();          
+        }); 
+
+      },
+      
+      sightingsResponseHandler: function(request) {
+        if (null !== request.detail.response) {
+          this.items = request.detail.response;
+        }
+      },
+
+      sightingsErrorHandler: function(e) {
+        console.log(e);
+      },
+      
+      sightingsClickHandler: function(e) {
+        console.log(e);
       },
       
     });
-  })();
+     
+  })(); 
+   
 </script>
 </dom-module>
