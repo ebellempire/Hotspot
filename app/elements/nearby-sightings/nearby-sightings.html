@@ -68,13 +68,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       
       sightingsResponseHandler: function(request) {
+        var t = Polymer.dom(document).querySelector('#toast');
         if (null !== request.detail.response) {
           this.items = request.detail.response;
+        } else {
+          t.duration = 0;
+          t.text = 'Unable to find sightings data for your location. Bummer.';
+          t.show();
         }
       },
 
       sightingsErrorHandler: function(e) {
         console.log(e);
+        var t = Polymer.dom(document).querySelector('#toast');
+        t.duration = 0;
+        t.text = 'Uh oh! Something went wrong.';
+        t.show();        
       },
       
       sightingsClickHandler: function(e) {

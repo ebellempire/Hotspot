@@ -69,13 +69,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       
       hotspotsResponseHandler: function(request) {
+        var t = Polymer.dom(document).querySelector('#toast');
         if (null !== request.detail.response) {
           this.items = request.detail.response;
+        } else {
+          t.duration = 0;
+          t.text = 'Unable to find hotspot data for your location. Bummer.';
+          t.show();
         }
       },
 
       hotspotsErrorHandler: function(e) {
         console.log(e);
+        var t = Polymer.dom(document).querySelector('#toast');
+        t.duration = 0;
+        t.text = 'Uh oh! Something went wrong.';
+        t.show();
       },
       
       hotspotsClickHandler: function(e) {
