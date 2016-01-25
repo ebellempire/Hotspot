@@ -40,7 +40,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var locationToast = Polymer.dom(document).querySelector('#toast');
 
     function getLocation() {
-        
+      
+      working.setAttribute('icon', 'refresh');   
       working.setAttribute('class', 'spin');  
       
       function success(position) {
@@ -81,7 +82,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		
       }
             
-      navigator.geolocation.getCurrentPosition(success,error,{enableHighAccuracy: true});
+      navigator.geolocation.getCurrentPosition(success,error,{
+        enableHighAccuracy: true, maximumAge: 0, timeout: 30000});
       
     }
     
