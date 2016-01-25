@@ -25,17 +25,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   /* Application theme */
 
   :root {
-    --primary-color: #1489ff;
+    --primary-color: #1489ff; // business blue
     --primary-text-color: #212121;
     --primary-background-color: #ffffff;
-    --secondary-text-color: #737373;
-    --disabled-text-color: #9b9b9b;
-    --divider-color: #dbdbdb;
-    --light-primary-color: #c5cae9;
-    --dark-primary-color: #303f9f;
-    --accent-color: #ff4081;
-    --light-accent-color: #ff80ab;
-    --dark-accent-color: #f50057;
+    --secondary-text-color: #737373; // medium grey
+    --disabled-text-color: #9b9b9b; // light grey
+    --divider-color: #dbdbdb; // grey
+    --light-primary-color: var(--primary-color);
+    --dark-primary-color: var(--primary-color);
+    --accent-color: #ff4081; // pink
+    --light-accent-color: #ff80ab; // light pink
+    --dark-accent-color: #f50057; // medium pink
 
     /* Components */
 
@@ -43,6 +43,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --drawer-menu-color: #ffffff;
     --drawer-border-color: 1px solid #ccc;
     --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
+    --paper-toolbar-height: 88px;
+    --paper-toolbar-sm-height: 88px;
 
     /* paper-menu */
     --paper-menu-background-color: #fff;
@@ -54,6 +56,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   body {
     @apply(--layout-fullbleed);
     @apply(--layout-vertical);
+  }
+
+  .content a {
+    color: var(--accent-color);
   }
 
   .space {
@@ -162,8 +168,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   #toast .toast-hide-button {
     color: #eeff41;
-    margin: 10px;
+    margin: 5px;
   }
+
+  #toast .spacer{}
 
   /* Breakpoints */
 
@@ -196,7 +204,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     iron-pages {
-      padding: 48px 62px;
+      padding: 48px 32px;
     }
 
     paper-material {

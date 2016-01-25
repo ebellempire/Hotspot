@@ -8,6 +8,13 @@
       body{
         background-color: #f2f2f2;
       }
+      .inline-logo{
+        width: 100%;
+        height: auto;
+        max-width: 16em;
+        margin: 2em auto;
+        display: block;        
+      }
       .page-title {
         @apply(--paper-font-display2);
       }
@@ -23,12 +30,12 @@
       }
       iron-list .row{
       	height: auto;
-      	max-width: 95%;
-      	margin: 10px 2.5%;
+      	max-width: 98%;
+      	margin: 10px 1%;
       	padding: 10px;
       	position: relative !important;
       	top:auto !important;
-      	border:1px solid #ccc;
+      	border:1px solid #aaa;
       	background: #fff;
       }
       iron-list .row h4.title{
@@ -36,13 +43,13 @@
         padding: 0;
       }
       iron-list .row .latin{
-          color:#ccc;
+          color:var(--accent-color);
           font-size:.85em;
           padding: .15em 0 .5em;
           font-style: italic;
       }
       iron-list .row .location-data{
-          color:#ccc;
+          color:#aaa;
           font-size:.85em;
           padding: .15em 0 0;
           font-style: italic;
@@ -53,8 +60,8 @@
       }
       
       iron-list .row .time{
-          color:#ccc;
-          font-size:.7em;
+          color:#aaa;
+          font-size:.85em;
       }
       .spin {
           -webkit-animation-name: spin;
