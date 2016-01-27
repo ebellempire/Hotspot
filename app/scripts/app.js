@@ -57,6 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           '&lat=' + app.lat + '&lng=' + app.lon;
         
         locationToast.text = 'Location acquired! Get your bird on!';
+        locationToast.duration = 2000;
         locationToast.show();
         
         working.removeAttribute('class'); 
