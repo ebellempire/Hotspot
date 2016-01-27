@@ -19,6 +19,29 @@
         @apply(--paper-font-display2);
       }
 
+      .item-actions{
+        display: flex;
+        font-size:.65em;
+        justify-content:space-between;
+        margin-top: 1em;
+      }
+      .item-actions paper-button{
+        background:#f8f8f8;
+        color:#888;
+        margin: 0 .25em 0;
+        flex: 1 1 auto;
+      }
+      .item-actions paper-button iron-icon{
+        color:#ccc;
+      }
+      @media all and (max-width:51em){
+        paper-dialog#detail{
+          margin:0;
+          width:97%;
+        }
+      }
+
+
       paper-menu a > *, paper-menu paper-item > *, paper-menu paper-icon-item > * {
         pointer-events: none;
       }

@@ -25,14 +25,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-error="sightingsErrorHandler"></iron-ajax>
     <iron-list>
     <template is="dom-repeat" items="{{items}}">
-      <div class="row" on-tap="sightingsClickHandler">
+      <div class="row">
           <h4 class="title">{{item.comName}}</h4>
           <div class="latin">{{item.sciName}}</div>
           <div class="loc">Last spotted at <span>{{item.locName}}</span></div>
           <div class="time">{{item.obsDt}}</div>
+          <div class="item-actions">
+            <paper-button on-tap="sightingsClickHandler">
+            <!-- <iron-icon icon="info"></iron-icon> -->
+            Species Info
+            </paper-button> 
+            <paper-button on-tap="sightingsClickHandler">
+            <!-- <iron-icon icon="maps:place"></iron-icon> -->
+            Location Info
+            </paper-button>
+          </div>      
       </div>
     </template>
     </iron-list>
+    
+    <paper-dialog modal id="detail">
+      <h2>Detail</h2>
+      <paper-dialog-scrollable id="text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est. 
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Close</paper-button>
+      </div>     
+    </paper-dialog>    
+
   </template> 
 
 <script>
@@ -71,6 +92,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var t = Polymer.dom(document).querySelector('#toast');
         if (null !== request.detail.response) {
           this.items = request.detail.response;
+          //console.log(this.items);
         } else {
           t.duration = 0;
           t.text = 'Unable to find sightings data for your location. Bummer.';
@@ -87,7 +109,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       
       sightingsClickHandler: function(e) {
-        console.log(e);
+        var itemData = e.model.item;
+        console.log(itemData);
+        this.$.detail.open();
       },
       
     });
