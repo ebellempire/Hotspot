@@ -15,6 +15,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   var app = document.querySelector('#app');
   app.apiRecent = 'http://ebird.org/ws1.1/data/obs/geo/recent?fmt=json&back=2';
   app.apiHotspots = 'http://ebird.org/ws1.1/ref/hotspot/geo?dist=20&back=2&fmt=json';
+  app.apiBirdDetail = 'https://en.wikipedia.org/w/api.php?' +
+    'action=query&format=json&prop=revisions&rvprop=content';
 
   // Sets app default base URL
   app.baseUrl = '/';
