@@ -101,14 +101,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       hotspotsClickHandler: function(e) {
         var itemData = e.model.item;
-        var d = this.$.detail;
-        var dh = this.$.dialogTitle;
-        var dm = this.$.dialogMap;
-        console.log(itemData);
-        dm.innerHTML = '<div>' + itemData.locName + 
-          '<br>' + itemData.lat + ',' + itemData.lng + '</div>';
-        dh.innerHTML = itemData.locName;
-        d.open();
+        Polymer.dom(document).querySelector('#itemDetail').fire(
+          'itemDetailsAcquired', {
+            type: 'hotspot',
+            apiRequest: null, 
+            page: null,
+            name: null, 
+            species: null,
+            location: itemData.locName,
+            coords: itemData.lat + ',' + itemData.lng,
+          }
+        );
       },
       
     });

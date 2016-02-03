@@ -33,8 +33,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </template>
     </iron-list>
-    
-    <paper-dialog modal id="detail">
+
+<!--     <paper-dialog modal id="detail">
       <h2 id="dialogTitle"></h2>
       <paper-dialog-scrollable>
         <figure id="dialogMap">
@@ -45,7 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="buttons">
         <paper-button dialog-dismiss>Close</paper-button>
       </div>     
-    </paper-dialog>    
+    </paper-dialog>  -->   
 
   </template> 
 
@@ -112,17 +112,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       sightingsClickHandler: function(e) {
         var itemData = e.model.item;
         var queryTitle = formattedSpeciesQuery(itemData.sciName); 
-        var url = app.apiBirdDetail + '&titles=' + encodeURIComponent(queryTitle);
-        var d = this.$.detail;
-        var dh = this.$.dialogTitle;
-        var dt = this.$.dialogText;
-        var dm = this.$.dialogMap;
-        console.log(queryTitle);
-        dm.innerHTML = '<div>' + itemData.locName + 
-          '<br>' + itemData.lat + ',' + itemData.lng + '</div>';
-        dh.innerHTML = itemData.comName;
-        dt.innerHTML = '<a target="_blank" href="' + url + '">TEST</a>';
-        d.open();
+        var apiRequest = app.apiBirdDetail + '&titles=' + encodeURIComponent(queryTitle);
+
+        Polymer.dom(document).querySelector('#itemDetail').fire(
+          'itemDetailsAcquired', {
+            type: 'sighting',
+            apiRequest: apiRequest, 
+            page: 'https://en.wikipedia.org/wiki/' + formattedSpeciesQuery(itemData.sciName),
+            name: formattedSpeciesQuery(itemData.comName), 
+            species: formattedSpeciesQuery(itemData.sciName),
+            location: itemData.locName,
+            coords: itemData.lat + ',' + itemData.lng,
+          }
+        );
       },
       
     });
