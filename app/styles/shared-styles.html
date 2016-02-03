@@ -18,22 +18,23 @@
       .page-title {
         @apply(--paper-font-display2);
       }
+      .hidden{
+        display:none;
+      }
+      paper-button#wiki, paper-button#maps{
+        background:var(--primary-color);
+        width: 100%;
+        margin: 0 0 1em;
+        padding: 0;
+      }
 
-/*      .item-actions{
-        display: flex;
-        font-size:.65em;
-        justify-content:space-between;
-        margin-top: 1em;
+      paper-button#wiki a, paper-button#maps a{
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: .5em .15em;
       }
-      .item-actions paper-button{
-        background:#f8f8f8;
-        color:#888;
-        margin: 0 .25em 0;
-        flex: 1 1 auto;
-      }
-      .item-actions paper-button iron-icon{
-        color:#ccc;
-      }*/
+
       paper-dialog#detail{
         max-width: 50em;
         min-width: 40em;
@@ -46,19 +47,15 @@
           min-width: 97%;
         }
       }
-      paper-dialog #dialogMap {
-        background: #eaeaea;
-        width: 100%;
-        margin: 0 0 1em;
-        height: 15em;
+      paper-dialog#detail h2 span#species {
+          display: block;
+          font-size: .7em;
+          font-style: italic;
       }
-
-      paper-dialog #dialogMap > div{
-        padding:1em;
-        text-align:center;
-        color:#aaa;
+      paper-dialog#detail iron-icon{
+        margin-right: .5em;
+        opacity: .5;
       }
-
       paper-menu a > *, paper-menu paper-item > *, paper-menu paper-icon-item > * {
         pointer-events: none;
       }
