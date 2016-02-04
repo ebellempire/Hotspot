@@ -15,11 +15,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     :host { display: block; }
   </style>
   <template>
-    <paper-dialog modal id="detail">
+    <paper-dialog modal id="detail" 
+      entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation"
+      opened="{{opened}}">
       <h2 id="dialogTitle"></h2>
       <paper-dialog-scrollable>
         <div id="dialogText">          
         </div>
+        <paper-button id="wiki"></paper-button>
+        <paper-button id="maps"></paper-button>
       </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-dismiss>Close</paper-button>
@@ -33,43 +38,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   
     Polymer({
       is: 'item-detail',
-    
-      attached: function() {
-        this.addEventListener('itemDetailsAcquired', function(e) {
-          var i = e.detail;
-          var d = this.$.detail;
-          var dh = this.$.dialogTitle;
-          var dt = this.$.dialogText;
-          dh.innerHTML = i.type === 'sighting' ? i.name : i.location; 
-          
-          var buttons;
-          if (i.type === 'sighting') {
-            buttons = '<paper-button id="wiki">' +
-              '<a target="_blank" href="' + i.page + '">' +
-              '<iron-icon icon="info"></iron-icon>Species Info on Wikipedia</a>' +
-              '</paper-button>' + 
-              '<paper-button id="maps">' +
-              '<a target="_blank" href="https://maps.google.com/maps?q=loc:' + 
-              i.coords.replace(',','+') + 
-              '&ll=' + i.coords.replace(',','+') + '">' +
-              '<iron-icon icon="maps:near-me"></iron-icon>Open Location in Maps</a>' +
-              '</paper-button>';
-          } else if (i.type === 'hotspot') {
-            buttons = '<paper-button id="maps">' +
-              '<a target="_blank" href="https://maps.google.com/maps?q=loc:' + 
-              i.coords.replace(',','+') + 
-              '&ll=' + i.coords.replace(',','+') + '">' +
-              '<iron-icon icon="maps:near-me"></iron-icon>Open Location in Maps</a>' +
-              '</paper-button>';
-          }
-
-          dt.innerHTML = buttons;
-          d.open();    
-          this.$.dialogText.set('disabled',false); 
-          // d.discoverDimensions();
-          // d.updateTargetDimensions();   
-        });         
-      },      
+      properties: {
+        opened: {
+          type: Boolean,
+          observer: '_onActivated',
+        },     
+      },
+      listeners: {
+        'itemDetailsAcquired': '_onItemDetailsAcquired',
+      },   
+      _onItemDetailsAcquired: function(e) {
+        var i = e.detail;
+        var d = this.$.detail;
+        var title = this.$.dialogTitle;
+        var wiki = this.$.wiki;
+        var maps = this.$.maps;
+        title.innerHTML = i.type === 'sighting' ? i.name : i.location; 
+        
+        if (i.type === 'sighting') {
+          wiki.innerHTML = '<a target="_blank" href="' + i.page + '">' +
+            '<iron-icon icon="info"></iron-icon>Species Info on Wikipedia</a>';
+          maps.innerHTML = '<a target="_blank" href="https://maps.google.com/maps?q=loc:' + 
+            i.coords.replace(',','+') + '&ll=' + i.coords.replace(',','+') + '">' +
+            '<iron-icon icon="maps:near-me"></iron-icon>Open Location in Maps</a>';
+        } else if (i.type === 'hotspot') {
+          wiki.innerHTML = '';  
+          maps.innerHTML = '<a target="_blank" href="https://maps.google.com/maps?q=loc:' + 
+            i.coords.replace(',','+') + '&ll=' + i.coords.replace(',','+') + '">' +
+            '<iron-icon icon="maps:near-me"></iron-icon>Open Location in Maps</a>';
+        }
+        d.open();   
+      }, 
+      _onActivated: function() {
+        // can't get animation listener working so this delays button activation
+        // to prevent misfire on dialog open
+        if (this.opened === true) {
+          this.async(function() {
+            this.$.wiki.disabled = false;
+            this.$.maps.disabled = false;
+          }, 650);          
+        } else {
+          this.$.wiki.disabled = true;
+          this.$.maps.disabled = true;
+        }
+      },  
     });
      
   })(); 
