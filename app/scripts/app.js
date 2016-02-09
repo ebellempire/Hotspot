@@ -18,6 +18,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.apiBirdDetail = 'https://en.wikipedia.org/w/api.php?' +
     'action=query&format=json&prop=revisions&rvprop=content';
 
+  app.cordova = true; // set false to run in web browser
+
   // Sets app default base URL
   app.baseUrl = '/';
   if (window.location.port === '') {  // if production
@@ -33,76 +35,87 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   };
 
+  // Get user location
+  function getLocation() {
+    
+    var working = Polymer.dom(document).querySelector('#refresh-button');
+    var locationToast = Polymer.dom(document).querySelector('#toast');
+
+    working.setAttribute('icon', 'refresh');   
+    working.setAttribute('class', 'spin');  
+    
+    function success(position) {
+      
+      app.lat = position.coords.latitude;
+      app.lon = position.coords.longitude;
+      console.log(app.lat,app.lon);
+      
+      app.locationRecent = app.apiRecent + 
+        '&lat=' + app.lat + '&lng=' + app.lon;
+      
+      app.locationHotspots = app.apiHotspots + 
+        '&lat=' + app.lat + '&lng=' + app.lon;
+      
+      locationToast.text = 'Location acquired! Get your bird on!';
+      locationToast.duration = 2000;
+      locationToast.show();
+      
+      working.removeAttribute('class'); 
+      
+      Polymer.dom(document).querySelector('nearby-sightings').fire(
+        'sightingsLocationAcquired', {url: app.locationRecent}
+        );
+      Polymer.dom(document).querySelector('nearby-hotspots').fire(
+        'hotspotsLocationAcquired', {url: app.locationHotspots}
+        );
+
+    }
+    
+    function error() {
+      
+      working.removeAttribute('class');
+      working.setAttribute('icon', 'error'); 
+      
+      locationToast.text = 'Unable to determine location.' + 
+          'Please check your settings and try again.';
+      locationToast.duration = 0; 
+      locationToast.show(); 
+  
+    }
+          
+    navigator.geolocation.getCurrentPosition(success,error,{
+      enableHighAccuracy: true, maximumAge: 0, timeout: 30000});
+    
+  }
+  
+  // Refresh location  
+  app.refreshLocation = function() {
+    console.log('Refreshing user location...');
+    getLocation();
+  };
+
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
-
-    var working = Polymer.dom(document).querySelector('#refresh-button');
-    var locationToast = Polymer.dom(document).querySelector('#toast');
-
-    function getLocation() {
-      
-      working.setAttribute('icon', 'refresh');   
-      working.setAttribute('class', 'spin');  
-      
-      function success(position) {
-        
-        app.lat = position.coords.latitude;
-        app.lon = position.coords.longitude;
-        console.log(app.lat,app.lon);
-        
-        app.locationRecent = app.apiRecent + 
-          '&lat=' + app.lat + '&lng=' + app.lon;
-        
-        app.locationHotspots = app.apiHotspots + 
-          '&lat=' + app.lat + '&lng=' + app.lon;
-        
-        locationToast.text = 'Location acquired! Get your bird on!';
-        locationToast.duration = 2000;
-        locationToast.show();
-        
-        working.removeAttribute('class'); 
-        
-        Polymer.dom(document).querySelector('nearby-sightings').fire(
-          'sightingsLocationAcquired', {url: app.locationRecent}
-          );
-        Polymer.dom(document).querySelector('nearby-hotspots').fire(
-          'hotspotsLocationAcquired', {url: app.locationHotspots}
-          );
-
-      }
-      
-      function error() {
-        
-        working.removeAttribute('class');
-        working.setAttribute('icon', 'error'); 
-        
-        locationToast.text = 'Unable to determine location.' + 
-            'Please check your settings and try again.';
-        locationToast.duration = 0; 
-        locationToast.show(); 
-		
-      }
-            
-      navigator.geolocation.getCurrentPosition(success,error,{
-        enableHighAccuracy: true, maximumAge: 0, timeout: 30000});
-      
-    }
-    
-    getLocation();
-
-    app.refreshLocation = function() {
-      console.log('Refreshing user location...');
+    if (!app.cordova) {
+      console.log('Getting initial browser location...');
       getLocation();
-    };
-    
+    }
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
   });
+
+  document.addEventListener('deviceready', function() {
+    console.log('Cordova device ready!');
+    if (app.cordova) {
+      console.log('Getting initial device location...');
+      getLocation();
+    }    
+  }, false);
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
